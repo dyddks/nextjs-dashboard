@@ -1,11 +1,15 @@
 const { db } = require('@vercel/postgres');
+require('dotenv').config();
+
+const pool = db;
+
 const {
   invoices,
   customers,
   revenue,
   users,
 } = require('../app/lib/placeholder-data.js');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 async function seedUsers(client) {
   try {
@@ -161,7 +165,7 @@ async function seedRevenue(client) {
 }
 
 async function main() {
-  const client = await db.connect();
+  const client = await pool.connect();
 
   await seedUsers(client);
   await seedCustomers(client);
